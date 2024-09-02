@@ -2,17 +2,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ArrowDownIcon, ArrowUpIcon, DollarSignIcon, PercentIcon, TrendingUpIcon } from "lucide-react"
+import { ArrowUpIcon, DollarSignIcon, PercentIcon, TrendingUpIcon } from "lucide-react"
 import { useState, useEffect } from 'react'
 
-// Add this interface at the top of your file
 interface DataItem {
   descripcion: string;
   valor: number;
   fecha: string;
 }
 
-// Helper function to format large numbers
 const formatNumber = (num: number) => {
   if (num >= 1000000000) {
     return (num / 1000000000).toFixed(2) + 'B'
