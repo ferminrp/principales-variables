@@ -7,8 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Argentine Central Bank Dashboard",
   description: "View key economic indicators and statistics from the Argentine Central Bank",
-  keywords: "Argentina, Central Bank, Economy, Finance, Dashboard",
-  authors: [{ name: "ferminrp" }],
+  icons: {
+    icon: '/favicon.ico',
+  },
   openGraph: {
     title: "Argentine Central Bank Dashboard",
     description: "Key economic indicators from Argentina's Central Bank",
@@ -31,6 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
