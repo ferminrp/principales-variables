@@ -5,7 +5,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ArrowUpIcon, DollarSignIcon, PercentIcon, TrendingUpIcon } from "lucide-react"
 import { useState, useEffect } from 'react'
 
+// Update the constant with integer IDs
+const FEATURED_METRIC_IDS = [1, 4, 6, 14, 16, 17];
+
 interface DataItem {
+  idVariable: number;  // Changed from string to number
   descripcion: string;
   valor: number;
   fecha: string;
@@ -24,49 +28,71 @@ const formatNumber = (num: number) => {
 
 export function Dashboard() {
   const [data, setData] = useState<{ results: DataItem[] }>({ results: [] })
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         const response = await fetch('https://api.bcra.gob.ar/estadisticas/v2.0/PrincipalesVariables')
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
         const result = await response.json()
         setData(result)
+        setError(null)
       } catch (error) {
         console.error('Error fetching data:', error)
+        setError('Failed to fetch data. Please try again later.')
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchData()
   }, [])
 
+  const getFeaturedMetrics = () => {
+    return FEATURED_METRIC_IDS
+      .map(idVariable => data.results.find(item => item.idVariable === idVariable))
+      .filter(Boolean) as DataItem[];
+  };
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+
+  const featuredMetrics = getFeaturedMetrics()
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Argentine Central Bank Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.results.slice(0, 6).map((item, index) => (
-          <Card key={index}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {item.descripcion.split('(')[0].trim()}
-              </CardTitle>
-              {index === 0 && <DollarSignIcon className="h-4 w-4 text-muted-foreground" />}
-              {index === 1 && <ArrowUpIcon className="h-4 w-4 text-muted-foreground" />}
-              {index === 2 && <PercentIcon className="h-4 w-4 text-muted-foreground" />}
-              {index === 3 && <TrendingUpIcon className="h-4 w-4 text-muted-foreground" />}
-              {(index === 4 || index === 5) && <ArrowUpIcon className="h-4 w-4 text-muted-foreground" />}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{formatNumber(item.valor)}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Updated: {new Date(item.fecha).toLocaleDateString()}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {featuredMetrics.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {featuredMetrics.map((item, index) => (
+            <Card key={item.idVariable}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  {item.descripcion.split('(')[0].trim()}
+                </CardTitle>
+                {index === 0 && <DollarSignIcon className="h-4 w-4 text-muted-foreground" />}
+                {index === 1 && <ArrowUpIcon className="h-4 w-4 text-muted-foreground" />}
+                {index === 2 && <PercentIcon className="h-4 w-4 text-muted-foreground" />}
+                {index === 3 && <TrendingUpIcon className="h-4 w-4 text-muted-foreground" />}
+                {(index === 4 || index === 5) && <ArrowUpIcon className="h-4 w-4 text-muted-foreground" />}
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{formatNumber(item.valor)}</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Updated: {new Date(item.fecha).toLocaleDateString()}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div>No featured metrics available</div>
+      )}
       <Card className="mt-4">
         <CardHeader>
           <CardTitle>Detailed Data</CardTitle>
