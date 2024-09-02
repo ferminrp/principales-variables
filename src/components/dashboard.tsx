@@ -5,6 +5,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ArrowDownIcon, ArrowUpIcon, DollarSignIcon, PercentIcon, TrendingUpIcon } from "lucide-react"
 import { useState, useEffect } from 'react'
 
+// Add this interface at the top of your file
+interface DataItem {
+  descripcion: string;
+  valor: number;
+  fecha: string;
+}
+
 // Helper function to format large numbers
 const formatNumber = (num: number) => {
   if (num >= 1000000000) {
@@ -18,7 +25,7 @@ const formatNumber = (num: number) => {
 }
 
 export function Dashboard() {
-  const [data, setData] = useState({ results: [] })
+  const [data, setData] = useState<{ results: DataItem[] }>({ results: [] })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +83,7 @@ export function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.results.map((item, index) => (
+              {data.results.map((item: DataItem, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.descripcion}</TableCell>
                   <TableCell>{formatNumber(item.valor)}</TableCell>
