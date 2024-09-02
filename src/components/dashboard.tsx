@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ArrowUpIcon, DollarSignIcon, PercentIcon, TrendingUpIcon } from "lucide-react"
+import { Wallet, DollarSignIcon, PercentIcon, BadgeDollarSign, Landmark, HandCoins } from "lucide-react"
 import { useState, useEffect } from 'react'
 
 // Update the constant with integer IDs
@@ -75,11 +75,12 @@ export function Dashboard() {
                 <CardTitle className="text-sm font-medium">
                   {item.descripcion.split('(')[0].trim()}
                 </CardTitle>
-                {index === 0 && <DollarSignIcon className="h-4 w-4 text-muted-foreground" />}
-                {index === 1 && <ArrowUpIcon className="h-4 w-4 text-muted-foreground" />}
+                {index === 0 && <Landmark className="h-4 w-4 text-muted-foreground" />}
+                {index === 1 && <BadgeDollarSign className="h-4 w-4 text-muted-foreground" />}
                 {index === 2 && <PercentIcon className="h-4 w-4 text-muted-foreground" />}
-                {index === 3 && <TrendingUpIcon className="h-4 w-4 text-muted-foreground" />}
-                {(index === 4 || index === 5) && <ArrowUpIcon className="h-4 w-4 text-muted-foreground" />}
+                {index === 3 && <HandCoins className="h-4 w-4 text-muted-foreground" />}
+                {index === 4 && <DollarSignIcon className="h-4 w-4 text-muted-foreground" />}
+                {index === 5 && <Wallet className="h-4 w-4 text-muted-foreground" />}
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{formatNumber(item.valor)}</div>
