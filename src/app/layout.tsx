@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     description: "Key economic indicators from Argentina's Central Bank",
     type: "website",
     url: "https://bcra.ferminrp.com",
-    images: [{ url: "https://your-website-url.com/og-image.jpg" }],
+    images: [{ url: "https://i.ibb.co/wYqyzBL/pv.png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Argentine Central Bank Dashboard",
     description: "Key economic indicators from Argentina's Central Bank",
-    images: ["https://your-website-url.com/twitter-image.jpg"],
+    images: ["https://i.ibb.co/wYqyzBL/pv.png"],
   },
 };
 
