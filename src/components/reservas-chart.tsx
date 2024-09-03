@@ -67,7 +67,7 @@ export function ReservasChart() {
             d: item.fecha,
             v: item.valor
           }))
-          .sort((a, b) => new Date(b.d).getTime() - new Date(a.d).getTime()) // Sort in descending order
+          .sort((a, b) => new Date(a.d).getTime() - new Date(b.d).getTime()) // Sort in ascending order
         
         setData(formattedData)
         setError(null)
