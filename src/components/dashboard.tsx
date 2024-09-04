@@ -105,15 +105,15 @@ export function Dashboard() {
       )}
       <Card className="mt-4">
         <CardHeader>
-          <CardTitle>Detailed Data</CardTitle>
+          <CardTitle>Info Detallada</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Description</TableHead>
-                <TableHead>Value</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead>Descripción</TableHead>
+                <TableHead>Valor</TableHead>
+                <TableHead>Fecha</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
