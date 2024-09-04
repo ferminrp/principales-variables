@@ -19,6 +19,11 @@ interface ReservaData {
   v: number;
 }
 
+interface ReservasChartProps {
+  variableId: number;
+  title: string;
+}
+
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return date.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
@@ -41,7 +46,7 @@ const chartConfig = {
   },
 }
 
-export function ReservasChart() {
+export function ReservasChart({ variableId, title }: ReservasChartProps) {
   const [data, setData] = useState<ReservaData[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -57,7 +62,7 @@ export function ReservasChart() {
         const startDateString = startDate.toISOString().split('T')[0]
         const endDateString = endDate.toISOString().split('T')[0]
         
-        const response = await fetch(`https://api.bcra.gob.ar/estadisticas/v2.0/DatosVariable/1/${startDateString}/${endDateString}`)
+        const response = await fetch(`https://api.bcra.gob.ar/estadisticas/v2.0/DatosVariable/${variableId}/${startDateString}/${endDateString}`)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
@@ -80,7 +85,7 @@ export function ReservasChart() {
     }
 
     fetchData()
-  }, [])
+  }, [variableId]) // Add variableId to the dependency array
 
   const latestValue = useMemo(() => data.length > 0 ? data[data.length - 1].v : 0, [data]);
 
@@ -92,7 +97,7 @@ export function ReservasChart() {
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Reservas Internacionales (M)</CardTitle>
+          <CardTitle>{title}</CardTitle>
           <CardDescription>
             Últimos 90 días
           </CardDescription>

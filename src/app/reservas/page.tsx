@@ -4,7 +4,7 @@ export default function ReservasPage() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Reservas del BCRA</h1>
-      <ReservasChart />
+      <ReservasChart variableId={1} title="Reservas Internacionales (M)" />
     </div>
   );
 }
