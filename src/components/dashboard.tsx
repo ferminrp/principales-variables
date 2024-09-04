@@ -88,7 +88,7 @@ export function Dashboard() {
               <CardContent>
                 <div className="text-2xl font-bold">{formatNumber(item.valor)}</div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Updated: {new Date(item.fecha).toLocaleDateString()}
+                  Actualizado: {new Date(item.fecha).toLocaleDateString()}
                 </p>
                 <Link href={`/${chartPages.find(page => page.variableId === item.idVariable)?.slug || ''}`} passHref>
                   <Button size="sm" variant="secondary" className="w-full mt-2">
