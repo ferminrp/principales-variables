@@ -24,6 +24,8 @@ export default function DynamicChartPage({ params }: { params: { slug: string } 
     notFound();
   }
 
+  const pageTitle = pageConfig.pageTitle || pageConfig.chartTitle || "";
+
   return (
     <div className="container mx-auto p-4">
       <Breadcrumb>
@@ -35,16 +37,16 @@ export default function DynamicChartPage({ params }: { params: { slug: string } 
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{pageConfig.title}</BreadcrumbPage>
+            <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       
-      <h1 className="text-2xl font-bold mb-4">{pageConfig.title}</h1>
+      <h1 className="text-2xl font-bold mb-4">{pageTitle}</h1>
       <ReservasChart 
         variableId={pageConfig.variableId}
-        title={pageConfig.title}
-        label={pageConfig.label}
+        title={pageConfig.chartTitle || pageConfig.pageTitle || ""}
+        label={pageConfig.label || ""}
         color="hsl(var(--chart-1))"
         chartType={pageConfig.chartType as "bar" | "line"}
       />
