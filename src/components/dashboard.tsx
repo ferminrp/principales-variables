@@ -69,7 +69,7 @@ export function Dashboard() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mt-8 mb-12">Dashboard Banco Central de la República Argentina</h1>
+      <h1 className="text-2xl font-bold mt-8 mb-12">Principales Variables del Banco Central de la República Argentina</h1>
       {featuredMetrics.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           {featuredMetrics.map((item, index) => (
