@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Wallet, DollarSignIcon, PercentIcon, BadgeDollarSign, Landmark, HandCoins } from "lucide-react"
+import { Wallet, DollarSignIcon, PercentIcon, BadgeDollarSign, Landmark, HandCoins, BarChart2 } from "lucide-react"
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
@@ -91,7 +91,10 @@ export function Dashboard() {
                   Updated: {new Date(item.fecha).toLocaleDateString()}
                 </p>
                 <Link href={`/${chartPages.find(page => page.variableId === item.idVariable)?.slug || ''}`} passHref>
-                  <Button size="sm" variant="secondary" className="w-full mt-2">See Details</Button>
+                  <Button size="sm" variant="secondary" className="w-full mt-2">
+                    <BarChart2 className="h-4 w-4 mr-2" />
+                    See Details
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
