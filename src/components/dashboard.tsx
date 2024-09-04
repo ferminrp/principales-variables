@@ -93,7 +93,7 @@ export function Dashboard() {
                 <Link href={`/${chartPages.find(page => page.variableId === item.idVariable)?.slug || ''}`} passHref>
                   <Button size="sm" variant="secondary" className="w-full mt-2">
                     <BarChart2 className="h-4 w-4 mr-2" />
-                    See Details
+                    Ver gráfico
                   </Button>
                 </Link>
               </CardContent>
