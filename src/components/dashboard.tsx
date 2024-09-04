@@ -91,7 +91,7 @@ export function Dashboard() {
                   Updated: {new Date(item.fecha).toLocaleDateString()}
                 </p>
                 <Link href={`/${chartPages.find(page => page.variableId === item.idVariable)?.slug || ''}`} passHref>
-                  <Button variant="outline" className="w-full mt-2">See Details</Button>
+                  <Button size="sm" variant="secondary" className="w-full mt-2">See Details</Button>
                 </Link>
               </CardContent>
             </Card>
