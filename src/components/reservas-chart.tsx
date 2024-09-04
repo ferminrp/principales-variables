@@ -82,7 +82,7 @@ export function ReservasChart() {
     fetchData()
   }, [])
 
-  const latestValue = useMemo(() => data.length > 0 ? data[0].v : 0, [data]);
+  const latestValue = useMemo(() => data.length > 0 ? data[data.length - 1].v : 0, [data]);
 
   if (isLoading) return <div>Cargando...</div>
   if (error) return <div>Error: {error}</div>
