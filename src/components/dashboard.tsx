@@ -4,6 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Wallet, DollarSignIcon, PercentIcon, BadgeDollarSign, Landmark, HandCoins } from "lucide-react"
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Button } from "@/components/ui/button"
+import { chartPages } from "@/config/chartPages"
 
 // Update the constant with integer IDs
 const FEATURED_METRIC_IDS = [1, 4, 6, 14, 16, 17];
@@ -87,6 +90,9 @@ export function Dashboard() {
                 <p className="text-xs text-muted-foreground mt-1">
                   Updated: {new Date(item.fecha).toLocaleDateString()}
                 </p>
+                <Link href={`/${chartPages.find(page => page.variableId === item.idVariable)?.slug || ''}`} passHref>
+                  <Button variant="outline" className="w-full mt-2">See Details</Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
