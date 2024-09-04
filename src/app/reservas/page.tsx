@@ -9,6 +9,7 @@ export default function ReservasPage() {
         title="Reservas Internacionales (M)" 
         label="Reservas"
         color="hsl(var(--chart-1))"
+        chartType="bar" // or "line"
       />
     </div>
   );

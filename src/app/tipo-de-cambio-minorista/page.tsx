@@ -9,6 +9,7 @@ export default function TipoDeCambioMinoristaPage() {
         title="Tipo de Cambio Minorista" 
         label="Tipo de Cambio"
         color="hsl(var(--chart-1))"
+        chartType="line" // or "bar"
       />
     </div>
   );

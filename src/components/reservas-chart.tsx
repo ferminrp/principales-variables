@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { BarChart, Bar, XAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, LineChart, Line, XAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
 
 interface ApiResponse {
   status: number;
@@ -24,6 +24,7 @@ interface ReservasChartProps {
   title: string;
   label: string;
   color: string;
+  chartType: 'bar' | 'line'; // Add this new prop
 }
 
 const formatDate = (dateString: string) => {
@@ -41,7 +42,7 @@ const formatValue = (value: number) => {
   }
 }
 
-export function ReservasChart({ variableId, title, label, color }: ReservasChartProps) {
+export function ReservasChart({ variableId, title, label, color, chartType }: ReservasChartProps) {
   const [data, setData] = useState<ReservaData[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -121,37 +122,73 @@ export function ReservasChart({ variableId, title, label, color }: ReservasChart
           className="aspect-auto h-[250px] w-full"
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={data}
-              margin={{
-                left: 12,
-                right: 12,
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="d"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={formatDate}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="data"
-                    labelFormatter={(value) => formatDate(value)}
-                    formatter={(value) => formatValue(value as number)}
-                  />
-                }
-              />
-              <Bar
-                dataKey="v"
-                fill={chartConfig.data.color}
-              />
-            </BarChart>
+            {chartType === 'bar' ? (
+              <BarChart
+                data={data}
+                margin={{
+                  left: 12,
+                  right: 12,
+                }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="d"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  minTickGap={32}
+                  tickFormatter={formatDate}
+                />
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      className="w-[150px]"
+                      nameKey="data"
+                      labelFormatter={(value) => formatDate(value)}
+                      formatter={(value) => formatValue(value as number)}
+                    />
+                  }
+                />
+                <Bar
+                  dataKey="v"
+                  fill={chartConfig.data.color}
+                />
+              </BarChart>
+            ) : (
+              <LineChart
+                data={data}
+                margin={{
+                  left: 12,
+                  right: 12,
+                }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="d"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  minTickGap={32}
+                  tickFormatter={formatDate}
+                />
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      className="w-[150px]"
+                      nameKey="data"
+                      labelFormatter={(value) => formatDate(value)}
+                      formatter={(value) => formatValue(value as number)}
+                    />
+                  }
+                />
+                <Line
+                  type="monotone"
+                  dataKey="v"
+                  stroke={chartConfig.data.color}
+                  dot={false}
+                />
+              </LineChart>
+            )}
           </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
