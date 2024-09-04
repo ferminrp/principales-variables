@@ -32,14 +32,14 @@ export const chartPages = [
     variableId: 16,
     title: 'Dinero en Circulación',
     label: 'Dinero',
-    chartType: 'line',
+    chartType: 'bar',
   },
   {
     slug: 'billetes-y-monedas-en-poder-del-publico',
     variableId: 17,
     title: 'Billetes y monedas en poder del público',
     label: 'Dinero',
-    chartType: 'line',
+    chartType: 'bar',
   },
   // Agrega más configuraciones aquí
 ];
