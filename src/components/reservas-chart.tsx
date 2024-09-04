@@ -22,6 +22,8 @@ interface ReservaData {
 interface ReservasChartProps {
   variableId: number;
   title: string;
+  label: string;
+  color: string;
 }
 
 const formatDate = (dateString: string) => {
@@ -39,14 +41,7 @@ const formatValue = (value: number) => {
   }
 }
 
-const chartConfig = {
-  reservas: {
-    label: "Reservas",
-    color: "hsl(var(--chart-1))",
-  },
-}
-
-export function ReservasChart({ variableId, title }: ReservasChartProps) {
+export function ReservasChart({ variableId, title, label, color }: ReservasChartProps) {
   const [data, setData] = useState<ReservaData[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -93,6 +88,13 @@ export function ReservasChart({ variableId, title }: ReservasChartProps) {
   if (error) return <div>Error: {error}</div>
   if (data.length === 0) return <div>No hay datos disponibles</div>
 
+  const chartConfig = {
+    data: {
+      label: label,
+      color: color,
+    }
+  }
+
   return (
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
@@ -105,7 +107,7 @@ export function ReservasChart({ variableId, title }: ReservasChartProps) {
         <div className="flex">
           <div className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6">
             <span className="text-xs text-muted-foreground">
-              {chartConfig.reservas.label}
+              {chartConfig.data.label}
             </span>
             <span className="text-lg font-bold leading-none sm:text-3xl">
               {formatValue(latestValue)}
@@ -139,7 +141,7 @@ export function ReservasChart({ variableId, title }: ReservasChartProps) {
                 content={
                   <ChartTooltipContent
                     className="w-[150px]"
-                    nameKey="reservas"
+                    nameKey="data"
                     labelFormatter={(value) => formatDate(value)}
                     formatter={(value) => formatValue(value as number)}
                   />
@@ -147,7 +149,7 @@ export function ReservasChart({ variableId, title }: ReservasChartProps) {
               />
               <Bar
                 dataKey="v"
-                fill={`var(--color-reservas)`}
+                fill={chartConfig.data.color}
               />
             </BarChart>
           </ResponsiveContainer>
