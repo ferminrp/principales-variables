@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { chartPages } from "@/config/chartPages"
+import { MetricDrawer } from "@/components/MetricDrawer"
+import { ChevronRight } from "lucide-react" // Add this import
 
 // Update the constant with integer IDs
 const FEATURED_METRIC_IDS = [1, 4, 6, 14, 16, 17];
@@ -33,6 +35,8 @@ export function Dashboard() {
   const [data, setData] = useState<{ results: DataItem[] }>({ results: [] })
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedMetric, setSelectedMetric] = useState<DataItem | null>(null)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,6 +65,11 @@ export function Dashboard() {
       .map(idVariable => data.results.find(item => item.idVariable === idVariable))
       .filter(Boolean) as DataItem[];
   };
+
+  const handleMetricClick = (metric: DataItem) => {
+    setSelectedMetric(metric)
+    setIsDrawerOpen(true)
+  }
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
@@ -114,20 +123,32 @@ export function Dashboard() {
                 <TableHead>Descripción</TableHead>
                 <TableHead>Valor</TableHead>
                 <TableHead>Fecha</TableHead>
+                <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.results.map((item: DataItem, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} onClick={() => handleMetricClick(item)} className="cursor-pointer hover:bg-muted">
                   <TableCell>{item.descripcion}</TableCell>
                   <TableCell>{formatNumber(item.valor)}</TableCell>
                   <TableCell>{new Date(item.fecha).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+
+      {selectedMetric && (
+        <MetricDrawer
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          metric={selectedMetric}
+        />
+      )}
     </div>
   )
 }
