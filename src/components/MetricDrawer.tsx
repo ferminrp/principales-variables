@@ -136,27 +136,6 @@ export function MetricDrawer({ isOpen, onClose, metric }: MetricDrawerProps) {
                   }
                   cursor={false}
                 />
-                <ReferenceLine
-                  y={average}
-                  stroke="hsl(var(--muted-foreground))"
-                  strokeDasharray="3 3"
-                  strokeWidth={1}
-                >
-                  <Label
-                    position="insideBottomLeft"
-                    value="Promedio"
-                    offset={10}
-                    fill="hsl(var(--foreground))"
-                  />
-                  <Label
-                    position="insideTopLeft"
-                    value={formatNumber(average)}
-                    className="text-lg"
-                    fill="hsl(var(--foreground))"
-                    offset={10}
-                    startOffset={100}
-                  />
-                </ReferenceLine>
               </BarChart>
             </ChartContainer>
           </CardContent>
