@@ -2,13 +2,12 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Wallet, DollarSignIcon, PercentIcon, BadgeDollarSign, Landmark, HandCoins, BarChart2 } from "lucide-react"
+import { Wallet, DollarSignIcon, PercentIcon, BadgeDollarSign, Landmark, HandCoins, BarChart2, ChevronRight } from "lucide-react"
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { chartPages } from "@/config/chartPages"
-import { MetricDrawer } from "@/components/MetricDrawer"
-import { ChevronRight } from "lucide-react" // Add this import
+import { useRouter } from 'next/navigation'
 
 // Update the constant with integer IDs
 const FEATURED_METRIC_IDS = [1, 4, 6, 14, 16, 17];
@@ -32,11 +31,10 @@ const formatNumber = (num: number) => {
 }
 
 export function Dashboard() {
+  const router = useRouter()
   const [data, setData] = useState<{ results: DataItem[] }>({ results: [] })
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedMetric, setSelectedMetric] = useState<DataItem | null>(null)
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,8 +65,7 @@ export function Dashboard() {
   };
 
   const handleMetricClick = (metric: DataItem) => {
-    setSelectedMetric(metric)
-    setIsDrawerOpen(true)
+    router.push(`/metric/${metric.idVariable}`)
   }
 
   if (isLoading) return <div>Loading...</div>
@@ -141,14 +138,6 @@ export function Dashboard() {
           </Table>
         </CardContent>
       </Card>
-
-      {selectedMetric && (
-        <MetricDrawer
-          isOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
-          metric={selectedMetric}
-        />
-      )}
     </div>
   )
 }
