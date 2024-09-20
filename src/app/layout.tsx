@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,6 +47,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>{children}</body>
       <GoogleAnalytics gaId="G-YWYJDWQ495" />
+      <Analytics/>
     </html>
   );
 }
