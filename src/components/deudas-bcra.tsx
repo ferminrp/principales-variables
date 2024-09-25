@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { AlertCircle } from 'lucide-react'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 type Entidad = {
   entidad: string
@@ -167,6 +168,43 @@ export function DeudasBcra() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold mb-4">Preguntas Frecuentes</h3>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>¿Qué significa cada situación en la Central de Deudores?</AccordionTrigger>
+                <AccordionContent>
+                  <p className="mb-2">Considerando solo la mora:</p>
+                  <ul className="list-disc pl-5">
+                    <li><strong>1. Normal:</strong> Atraso en el pago que no supere los 31 días. (*)</li>
+                    <li><strong>2. Riesgo bajo:</strong> Atraso en el pago de más de 31 y hasta 90 días desde el vencimiento. (*)</li>
+                    <li><strong>3. Riesgo medio:</strong> Atraso en el pago de más de 90 y hasta 180 días. (*)</li>
+                    <li><strong>4. Riesgo alto:</strong> Atraso en el pago de más de 180 días hasta un año. (*)</li>
+                    <li><strong>5. Irrecuperable:</strong> Atrasos superiores a un año</li>
+                  </ul>
+                  <p className="mt-2 text-sm italic">(*) A partir de la fecha de vencimiento de la obligación más antigua.</p>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>¿De dónde sale esta información?</AccordionTrigger>
+                <AccordionContent>
+                  <p>
+                    Es información pública provista por el Banco Central en la Central de Deudores. 
+                    Puedes acceder a ella directamente en el sitio web del BCRA: 
+                    <a 
+                      href="https://www.bcra.gob.ar/BCRAyVos/Situacion_Crediticia.asp"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 underline ml-1"
+                    >
+                      Central de Deudores del BCRA
+                    </a>.
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       )}
