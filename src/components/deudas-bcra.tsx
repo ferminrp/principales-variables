@@ -100,6 +100,12 @@ export function DeudasBcra() {
     });
   }
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      consultarDeuda();
+    }
+  }
+
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase()
   }
@@ -137,6 +143,7 @@ export function DeudasBcra() {
           pattern="[0-9]*"
           value={cuit}
           onChange={handleCuitChange}
+          onKeyPress={handleKeyPress}
           placeholder="Ingrese CUIT (solo números)"
           className="max-w-xs"
         />
