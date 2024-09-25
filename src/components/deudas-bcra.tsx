@@ -65,7 +65,7 @@ export function DeudasBcra() {
     return deudaHistorica.results.periodos.map(periodo => ({
       name: periodo.periodo,
       total: periodo.entidades.reduce((sum, entidad) => sum + entidad.monto * 1000, 0)
-    })).reverse().slice(0, 12) // Mostrar solo los últimos 12 meses
+    })).reverse() // Eliminamos .slice(0, 12) para mostrar todos los meses
   }
 
   const formatCurrency = (value: number) => {
@@ -99,8 +99,10 @@ export function DeudasBcra() {
             {deudaActual.results.periodos[0].entidades.map((entidad, index) => (
               <Card key={index} className="overflow-hidden">
                 <CardHeader className="flex flex-row items-center gap-4">
-                  <Avatar>
-                    <AvatarFallback>{getInitials(entidad.entidad)}</AvatarFallback>
+                  <Avatar className="rounded-full overflow-hidden" style={{ borderRadius: '50%' }}>
+                    <AvatarFallback className="rounded-full" style={{ borderRadius: '50%' }}>
+                      {getInitials(entidad.entidad)}
+                    </AvatarFallback>
                   </Avatar>
                   <CardTitle className="text-sm leading-tight">
                     {entidad.entidad}
@@ -120,7 +122,7 @@ export function DeudasBcra() {
         <div>
           <h2 className="text-xl font-semibold mb-4">Evolución Histórica de la Deuda</h2>
           <Card>
-            <CardContent className="h-[500px]">
+            <CardContent className="h-[600px]"> {/* Aumentamos la altura del gráfico */}
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={prepareChartData()}
@@ -128,15 +130,16 @@ export function DeudasBcra() {
                     top: 20,
                     right: 30,
                     left: 60,
-                    bottom: 60,
+                    bottom: 80, // Aumentamos el margen inferior
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="name" 
-                    angle={-45} 
+                    angle={-90} // Rotamos las etiquetas 90 grados
                     textAnchor="end" 
-                    height={60}
+                    height={80} // Aumentamos la altura del eje X
+                    interval={0} // Mostramos todas las etiquetas
                     tickFormatter={formatPeriod}
                   />
                   <YAxis 
