@@ -164,10 +164,10 @@ export function DeudasBcra() {
           <p className="text-justify pt-4">
             Esta página utiliza las APIs e información pública del Banco Central 
             (<a href="https://www.bcra.gob.ar/Catalogo/apis.asp?fileName=central-deudores-v1&sectionName=Central%20de%20Deudores" 
-                className="text-blue-600 hover:underline" 
+                className="text-green-600 hover:text-green-800 underline" 
                 target="_blank" 
                 rel="noopener noreferrer">
-              @BCRA APIs
+              Link
             </a>) para que cualquiera pueda consultar esa información de manera amigable. 
             No recolectamos ni guardamos información sobre deuda ni consultas. 
             Cualquier reclamo sobre la información aquí presentada deberá ser hecho con las entidades que figuran.
