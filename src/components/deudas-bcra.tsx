@@ -42,17 +42,22 @@ export function DeudasBcra() {
   const [cuit, setCuit] = useState('')
   const [deudaActual, setDeudaActual] = useState<DeudaResponse | null>(null)
   const [deudaHistorica, setDeudaHistorica] = useState<DeudaHistoricaResponse | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [errorActual, setErrorActual] = useState<string | null>(null)
+  const [errorHistorica, setErrorHistorica] = useState<string | null>(null)
 
   const consultarDeuda = async () => {
-    try {
-      setError(null) // Clear any previous errors
-      // Send GA event when the user clicks the "Consultar" button
-      sendGAEvent('search', {
-        search_term: cuit,
-        category: 'deuda_bcra'
-      })
+    setErrorActual(null)
+    setErrorHistorica(null)
+    setDeudaActual(null)
+    setDeudaHistorica(null)
 
+    // Send GA event when the user clicks the "Consultar" button
+    sendGAEvent('search', {
+      search_term: cuit,
+      category: 'deuda_bcra'
+    })
+
+    try {
       const responseActual = await fetch(`https://api.bcra.gob.ar/centraldedeudores/v1.0/Deudas/${cuit}`)
       const dataActual = await responseActual.json()
       
@@ -61,7 +66,12 @@ export function DeudasBcra() {
       }
       
       setDeudaActual(dataActual)
+    } catch (error) {
+      console.error('Error al consultar la deuda actual:', error)
+      setErrorActual(error instanceof Error ? error.message : 'Error desconocido al consultar la deuda actual')
+    }
 
+    try {
       const responseHistorica = await fetch(`https://api.bcra.gob.ar/centraldedeudores/v1.0/Deudas/Historicas/${cuit}`)
       const dataHistorica = await responseHistorica.json()
       
@@ -71,10 +81,8 @@ export function DeudasBcra() {
       
       setDeudaHistorica(dataHistorica)
     } catch (error) {
-      console.error('Error al consultar la deuda:', error)
-      setError(error instanceof Error ? error.message : 'Error desconocido al consultar la deuda')
-      setDeudaActual(null)
-      setDeudaHistorica(null)
+      console.error('Error al consultar la deuda histórica:', error)
+      setErrorHistorica(error instanceof Error ? error.message : 'Error desconocido al consultar la deuda histórica')
     }
   }
 
@@ -128,11 +136,11 @@ export function DeudasBcra() {
         <Button onClick={consultarDeuda}>Consultar</Button>
       </div>
 
-      {error && (
+      {errorActual && (
         <Card className="mb-8 bg-red-50 border-red-200">
           <CardContent className="flex items-center gap-4 pt-6">
             <AlertCircle className="h-6 w-6 text-red-500" />
-            <p className="text-red-700">{error}</p>
+            <p className="text-red-700">{errorActual}</p>
           </CardContent>
         </Card>
       )}
@@ -161,6 +169,15 @@ export function DeudasBcra() {
             ))}
           </div>
         </div>
+      )}
+
+      {errorHistorica && (
+        <Card className="mb-8 bg-red-50 border-red-200">
+          <CardContent className="flex items-center gap-4 pt-6">
+            <AlertCircle className="h-6 w-6 text-red-500" />
+            <p className="text-red-700">{errorHistorica}</p>
+          </CardContent>
+        </Card>
       )}
 
       {deudaHistorica && (
