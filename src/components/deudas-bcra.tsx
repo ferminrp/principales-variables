@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { sendGAEvent } from '@next/third-parties/google'
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -43,6 +44,12 @@ export function DeudasBcra() {
 
   const consultarDeuda = async () => {
     try {
+      // Send GA event when the user clicks the "Consultar" button
+      sendGAEvent('search', {
+        search_term: cuit,
+        category: 'deuda_bcra'
+      })
+
       const responseActual = await fetch(`https://api.bcra.gob.ar/centraldedeudores/v1.0/Deudas/${cuit}`)
       const dataActual = await responseActual.json()
       setDeudaActual(dataActual)
@@ -53,6 +60,17 @@ export function DeudasBcra() {
     } catch (error) {
       console.error('Error al consultar la deuda:', error)
     }
+  }
+
+  const handleCuitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newCuit = e.target.value
+    setCuit(newCuit)
+
+    // Send GA event when the CUIT input changes
+    sendGAEvent('input', {
+      input_value: newCuit,
+      category: 'deuda_bcra_input'
+    })
   }
 
   const getInitials = (name: string) => {
@@ -85,7 +103,7 @@ export function DeudasBcra() {
         <Input
           type="text"
           value={cuit}
-          onChange={(e) => setCuit(e.target.value)}
+          onChange={handleCuitChange}
           placeholder="Ingrese CUIT"
           className="max-w-xs"
         />
