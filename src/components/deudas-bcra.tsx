@@ -10,6 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { AlertCircle } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import entityLogos from '@/data/entityLogos.json'
+import Image from 'next/image';
 
 type Entidad = {
   entidad: string
@@ -160,7 +161,12 @@ export function DeudasBcra() {
                 <CardHeader className="flex flex-row items-center gap-4">
                   <Avatar className="rounded-full overflow-hidden" style={{ borderRadius: '50%' }}>
                     {getEntityLogo(entidad.entidad) ? (
-                      <img src={getEntityLogo(entidad.entidad)} alt={entidad.entidad} className="w-full h-full object-cover" />
+                      <Image 
+                        src={getEntityLogo(entidad.entidad) ?? '/default-logo.png'} 
+                        alt={entidad.entidad} 
+                        layout="fill"
+                        objectFit="cover"
+                      />
                     ) : (
                       <AvatarFallback className="rounded-full" style={{ borderRadius: '50%' }}>
                         {getInitials(entidad.entidad)}
