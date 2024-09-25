@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, ArrowLeftRight } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import entityLogos from '@/data/entityLogos.json'
 import Image from 'next/image';
@@ -133,6 +133,12 @@ export function DeudasBcra() {
     return `${month}/${year}`
   }
 
+  const formatYAxis = (value: number) => {
+    if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
+    if (value >= 1000) return `${(value / 1000).toFixed(0)}K`;
+    return value.toString();
+  }
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Consulta de Deudas BCRA</h1>
@@ -243,30 +249,31 @@ export function DeudasBcra() {
       {deudaHistorica && (
         <div>
           <h2 className="text-xl font-semibold mb-4">Evolución Histórica de la Deuda</h2>
-          <Card>
-            <CardContent className="h-[600px]"> {/* Aumentamos la altura del gráfico */}
+          <Card className="h-[500px]"> {/* Increase the height of the Card */}
+            <CardContent className="h-full pt-5"> {/* Make CardContent full height and add some top padding */}
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={prepareChartData()}
                   margin={{
                     top: 20,
-                    right: 30,
-                    left: 60,
-                    bottom: 80, // Aumentamos el margen inferior
+                    right: 20,
+                    left: 20,
+                    bottom: 60,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="name" 
-                    angle={-90} // Rotamos las etiquetas 90 grados
+                    angle={-45}
                     textAnchor="end" 
-                    height={80} // Aumentamos la altura del eje X
-                    interval={0} // Mostramos todas las etiquetas
+                    height={80}
+                    interval={0}
                     tickFormatter={formatPeriod}
+                    fontSize={10}
                   />
                   <YAxis 
-                    tickFormatter={(value) => formatCurrency(value)}
-                    width={100}
+                    tickFormatter={formatYAxis}
+                    width={50}
                   />
                   <Tooltip 
                     formatter={(value) => formatCurrency(value as number)}
