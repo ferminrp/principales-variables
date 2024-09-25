@@ -63,14 +63,14 @@ export function DeudasBcra() {
   }
 
   const handleCuitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newCuit = e.target.value
-    setCuit(newCuit)
+    const newCuit = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+    setCuit(newCuit);
 
     // Send GA event when the CUIT input changes
     sendGAEvent('input', {
       input_value: newCuit,
       category: 'deuda_bcra_input'
-    })
+    });
   }
 
   const getInitials = (name: string) => {
@@ -102,9 +102,11 @@ export function DeudasBcra() {
       <div className="flex gap-4 mb-8">
         <Input
           type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           value={cuit}
           onChange={handleCuitChange}
-          placeholder="Ingrese CUIT"
+          placeholder="Ingrese CUIT (solo números)"
           className="max-w-xs"
         />
         <Button onClick={consultarDeuda}>Consultar</Button>
