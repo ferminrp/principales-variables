@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -158,6 +158,22 @@ export function DeudasBcra() {
           </Card>
         </div>
       )}
+
+      <Card className="mt-8">
+        <CardFooter className="text-sm text-gray-600">
+          <p className="text-justify pt-4">
+            Esta página utiliza las APIs e información pública del Banco Central 
+            (<a href="https://www.bcra.gob.ar/Catalogo/apis.asp?fileName=central-deudores-v1&sectionName=Central%20de%20Deudores" 
+                className="text-blue-600 hover:underline" 
+                target="_blank" 
+                rel="noopener noreferrer">
+              @BCRA APIs
+            </a>) para que cualquiera pueda consultar esa información de manera amigable. 
+            No recolectamos ni guardamos información sobre deuda ni consultas. 
+            Cualquier reclamo sobre la información aquí presentada deberá ser hecho con las entidades que figuran.
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   )
 }
