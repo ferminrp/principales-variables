@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { AlertCircle } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import entityLogos from '@/data/entityLogos.json'
 
 type Entidad = {
   entidad: string
@@ -102,6 +103,10 @@ export function DeudasBcra() {
     return name.split(' ').map(n => n[0]).join('').toUpperCase()
   }
 
+  const getEntityLogo = (entityName: string) => {
+    return entityLogos[entityName as keyof typeof entityLogos] || null
+  }
+
   const prepareChartData = () => {
     if (!deudaHistorica) return []
 
@@ -154,9 +159,13 @@ export function DeudasBcra() {
               <Card key={index} className="overflow-hidden">
                 <CardHeader className="flex flex-row items-center gap-4">
                   <Avatar className="rounded-full overflow-hidden" style={{ borderRadius: '50%' }}>
-                    <AvatarFallback className="rounded-full" style={{ borderRadius: '50%' }}>
-                      {getInitials(entidad.entidad)}
-                    </AvatarFallback>
+                    {getEntityLogo(entidad.entidad) ? (
+                      <img src={getEntityLogo(entidad.entidad)} alt={entidad.entidad} className="w-full h-full object-cover" />
+                    ) : (
+                      <AvatarFallback className="rounded-full" style={{ borderRadius: '50%' }}>
+                        {getInitials(entidad.entidad)}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                   <CardTitle className="text-sm leading-tight">
                     {entidad.entidad}
