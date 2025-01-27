@@ -40,7 +40,7 @@ export function Dashboard() {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('https://api.bcra.gob.ar/estadisticas/v2.0/PrincipalesVariables')
+        const response = await fetch('https://api.bcra.gob.ar/estadisticas/v3.0/Monetarias')
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
@@ -96,7 +96,7 @@ export function Dashboard() {
                 <p className="text-xs text-muted-foreground mt-1">
                   Actualizado: {new Date(item.fecha).toLocaleDateString()}
                 </p>
-                <Link href={`/${chartPages.find(page => page.variableId === item.idVariable)?.slug || ''}`} passHref>
+                <Link href={`/metric/${item.idVariable}`} passHref>
                   <Button size="sm" variant="secondary" className="w-full mt-2">
                     <BarChart2 className="h-4 w-4 mr-2" />
                     Ver gráfico

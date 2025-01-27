@@ -58,7 +58,7 @@ export function ReservasChart({ variableId, title, label, color, chartType }: Re
         const startDateString = startDate.toISOString().split('T')[0]
         const endDateString = endDate.toISOString().split('T')[0]
         
-        const response = await fetch(`https://api.bcra.gob.ar/estadisticas/v2.0/DatosVariable/${variableId}/${startDateString}/${endDateString}`)
+        const response = await fetch(`https://api.bcra.gob.ar/estadisticas/v3.0/Monetarias/${variableId}`)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }

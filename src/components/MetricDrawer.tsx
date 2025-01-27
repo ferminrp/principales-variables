@@ -48,7 +48,7 @@ export function MetricDrawer({ isOpen, onClose, metric }: MetricDrawerProps) {
       const endDateString = endDate.toISOString().split('T')[0]
       
       try {
-        const response = await fetch(`https://api.bcra.gob.ar/estadisticas/v2.0/DatosVariable/${metric.idVariable}/${startDateString}/${endDateString}`)
+        const response = await fetch(`https://api.bcra.gob.ar/estadisticas/v3.0/Monetarias/${metric.idVariable}/${startDateString}/${endDateString}`)
         if (!response.ok) throw new Error('Network response was not ok')
         const result = await response.json()
         const formattedData: ChartData[] = result.results
