@@ -15,11 +15,11 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
+import { Menu, Home, Search } from "lucide-react"
 
 const routes = [
-  { name: "Home", path: "/" },
-  { name: "Deudores", path: "/deudores" },
+  { name: "Home", path: "/", icon: Home },
+  { name: "Deudores", path: "/deudores", icon: Search },
 ]
 
 export function MainNav() {
@@ -41,6 +41,7 @@ export function MainNav() {
                 <NavigationMenuLink
                   className={cn(navigationMenuTriggerStyle(), pathname === route.path && "text-primary")}
                 >
+                  <route.icon className="w-4 h-4 mr-2" />
                   {route.name}
                 </NavigationMenuLink>
               </Link>
@@ -63,11 +64,12 @@ export function MainNav() {
                 key={route.path}
                 href={route.path}
                 className={cn(
-                  "text-lg font-medium transition-colors hover:text-primary",
+                  "text-lg font-medium transition-colors hover:text-primary flex items-center",
                   pathname === route.path && "text-primary",
                 )}
                 onClick={() => setIsOpen(false)}
               >
+                <route.icon className="w-5 h-5 mr-2" />
                 {route.name}
               </Link>
             ))}
