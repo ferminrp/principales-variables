@@ -21,6 +21,11 @@ interface Metric {
   fecha: string
 }
 
+const truncateText = (text: string, maxLength: number) => {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+};
+
 export default function MetricPage() {
   const { id } = useParams()
   const [metric, setMetric] = useState<Metric | null>(null)
@@ -77,11 +82,10 @@ export default function MetricPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{metric.descripcion}</BreadcrumbPage>
+            <BreadcrumbPage title={metric.descripcion}>{truncateText(metric.descripcion, 40)}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <CardTitle className="mb-6">{metric.descripcion}</CardTitle>
 
       <ReservasChart
         variableId={metric.idVariable}
