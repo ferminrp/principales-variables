@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { chartPages } from "@/config/chartPages"
 import { useRouter } from 'next/navigation'
+import { Skeleton } from "@/components/ui/skeleton"
 
 // Update the constant with integer IDs
 const FEATURED_METRIC_IDS = [1, 4, 6, 14, 16, 17];
@@ -68,7 +69,43 @@ export function Dashboard() {
     router.push(`/metric/${metric.idVariable}`)
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return (
+    <div className="container mx-auto p-4">
+      <Skeleton className="h-8 w-3/4 mb-12 mt-8" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        {[1,2,3,4,5,6].map((i) => (
+          <Card key={i}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <Skeleton className="h-4 w-[200px]" />
+              <Skeleton className="h-4 w-4" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-8 w-[100px] mb-2" />
+              <Skeleton className="h-4 w-[150px] mb-2" />
+              <Skeleton className="h-9 w-full" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <Card className="mt-4">
+        <CardHeader>
+          <Skeleton className="h-6 w-[150px]" />
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            {[1,2,3,4,5].map((i) => (
+              <div key={i} className="flex justify-between items-center">
+                <Skeleton className="h-4 w-[300px]" />
+                <Skeleton className="h-4 w-[100px]" />
+                <Skeleton className="h-4 w-[100px]" />
+                <Skeleton className="h-4 w-4" />
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
   if (error) return <div>Error: {error}</div>
 
   const featuredMetrics = getFeaturedMetrics()

@@ -13,6 +13,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardHeader, CardContent } from "@/components/ui/card"
 
 interface Metric {
   idVariable: number
@@ -69,7 +71,43 @@ export default function MetricPage() {
   }, [id])
 
   if (error) return <div>Error: {error}</div>
-  if (!metric) return <div>Loading...</div>
+  if (!metric) return (
+    <div className="container mx-auto p-4">
+      <Breadcrumb className="mb-4">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink>
+              <Link href="/">Dashboard</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>
+              <Skeleton className="h-4 w-[200px]" />
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <Card>
+        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+            <Skeleton className="h-6 w-[250px] mb-2" />
+            <Skeleton className="h-4 w-[100px]" />
+          </div>
+          <div className="flex">
+            <div className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6">
+              <Skeleton className="h-4 w-[60px] mb-2" />
+              <Skeleton className="h-8 w-[100px]" />
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="px-2 sm:p-6">
+          <Skeleton className="h-[250px] w-full" />
+        </CardContent>
+      </Card>
+    </div>
+  )
 
   return (
     <div className="container mx-auto p-4">

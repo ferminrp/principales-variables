@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { BarChart, Bar, LineChart, Line, XAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface ApiResponse {
   status: number;
@@ -85,7 +86,25 @@ export function ReservasChart({ variableId, title, label, color, chartType }: Re
 
   const latestValue = useMemo(() => data.length > 0 ? data[data.length - 1].v : 0, [data]);
 
-  if (isLoading) return <div>Cargando...</div>
+  if (isLoading) return (
+    <Card>
+      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+          <Skeleton className="h-6 w-[250px] mb-2" />
+          <Skeleton className="h-4 w-[100px]" />
+        </div>
+        <div className="flex">
+          <div className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6">
+            <Skeleton className="h-4 w-[60px] mb-2" />
+            <Skeleton className="h-8 w-[100px]" />
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="px-2 sm:p-6">
+        <Skeleton className="h-[250px] w-full" />
+      </CardContent>
+    </Card>
+  )
   if (error) return <div>Error: {error}</div>
   if (data.length === 0) return <div>No hay datos disponibles</div>
 
