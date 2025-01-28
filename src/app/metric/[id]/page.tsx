@@ -15,6 +15,17 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
+import { addDays, format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
+import { DateRange } from "react-day-picker"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 interface Metric {
   idVariable: number
@@ -32,6 +43,10 @@ export default function MetricPage() {
   const { id } = useParams()
   const [metric, setMetric] = useState<Metric | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+    to: new Date(),
+  })
 
   useEffect(() => {
     const fetchMetric = async () => {
@@ -125,12 +140,51 @@ export default function MetricPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
+      <div className="mb-4">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[300px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "yyyy-MM-dd")} - {format(date.to, "yyyy-MM-dd")}
+                  </>
+                ) : (
+                  format(date.from, "yyyy-MM-dd")
+                )
+              ) : (
+                <span>Seleccionar rango de fechas</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={date?.from}
+              selected={date}
+              onSelect={setDate}
+              numberOfMonths={2}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
       <ReservasChart
         variableId={metric.idVariable}
         title={metric.descripcion}
         label="Value"
         color="hsl(var(--chart-1))"
         chartType="line"
+        startDate={date?.from}
+        endDate={date?.to}
       />
     </div>
   )

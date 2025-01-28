@@ -25,12 +25,14 @@ interface ReservasChartProps {
   title: string;
   label: string;
   color: string;
-  chartType: 'bar' | 'line'; // Add this new prop
+  chartType: 'bar' | 'line';
+  startDate?: Date;
+  endDate?: Date;
 }
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  return date.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
+  return date.toISOString().split('T')[0];
 }
 
 const formatValue = (value: number) => {
@@ -43,7 +45,7 @@ const formatValue = (value: number) => {
   }
 }
 
-export function ReservasChart({ variableId, title, label, color, chartType }: ReservasChartProps) {
+export function ReservasChart({ variableId, title, label, color, chartType, startDate, endDate }: ReservasChartProps) {
   const [data, setData] = useState<ReservaData[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -52,24 +54,32 @@ export function ReservasChart({ variableId, title, label, color, chartType }: Re
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const endDate = new Date()
-        const startDate = new Date(endDate)
-        startDate.setDate(startDate.getDate() - 90)
-        
-        const startDateString = startDate.toISOString().split('T')[0]
-        const endDateString = endDate.toISOString().split('T')[0]
-        
         const response = await fetch(`https://api.bcra.gob.ar/estadisticas/v3.0/Monetarias/${variableId}`)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
         const result: ApiResponse = await response.json()
-        const formattedData: ReservaData[] = result.results
+        let formattedData: ReservaData[] = result.results
           .map(item => ({
             d: item.fecha,
             v: item.valor
           }))
-          .sort((a, b) => new Date(a.d).getTime() - new Date(b.d).getTime()) // Sort in ascending order
+          .sort((a, b) => new Date(a.d).getTime() - new Date(b.d).getTime())
+
+        // Filter data by date range if provided
+        if (startDate || endDate) {
+          formattedData = formattedData.filter(item => {
+            const itemDate = new Date(item.d)
+            if (startDate && endDate) {
+              return itemDate >= startDate && itemDate <= endDate
+            } else if (startDate) {
+              return itemDate >= startDate
+            } else if (endDate) {
+              return itemDate <= endDate
+            }
+            return true
+          })
+        }
         
         setData(formattedData)
         setError(null)
@@ -82,7 +92,7 @@ export function ReservasChart({ variableId, title, label, color, chartType }: Re
     }
 
     fetchData()
-  }, [variableId]) // Add variableId to the dependency array
+  }, [variableId, startDate, endDate])
 
   const latestValue = useMemo(() => data.length > 0 ? data[data.length - 1].v : 0, [data]);
 
@@ -121,7 +131,7 @@ export function ReservasChart({ variableId, title, label, color, chartType }: Re
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>{title}</CardTitle>
           <CardDescription>
-            Últimos 90 días
+            Toda la información histórica disponible
           </CardDescription>
         </div>
         <div className="flex">
