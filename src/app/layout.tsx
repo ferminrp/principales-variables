@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { MainNav } from "@/components/main-nav";
+import { Footer } from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,6 +51,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <MainNav />
         <main>{children}</main>
+        <Footer />
         <GoogleAnalytics gaId="G-YWYJDWQ495" />
         <Analytics/>
       </body>
