@@ -4,6 +4,8 @@ import { Heart } from "lucide-react";
 import Image from "next/image";
 
 export function Footer() {
+  const tealColor = "#14b8a6";  // teal-500
+
   return (
     <footer className="w-full border-t bg-background mt-8">
       <div className="container mx-auto p-4">
@@ -31,7 +33,8 @@ export function Footer() {
                   href="https://x.com/ferminrp" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  style={{ color: tealColor }}
+                  className="hover:underline"
                 >
                   @ferminrp
                 </Link>
@@ -67,9 +70,9 @@ export function Footer() {
                     href={site.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-gray-600 hover:text-blue-600"
+                    className="flex items-center gap-1 text-gray-600 hover:text-[#14b8a6]"
                   >
-                    <Heart className="h-4 w-4 stroke-blue-600" /> {site.name}
+                    <Heart className="h-4 w-4" style={{ stroke: tealColor, fill: "transparent" }} /> {site.name}
                   </Link>
                 </li>
               ))}
